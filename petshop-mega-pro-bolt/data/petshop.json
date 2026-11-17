@@ -1,0 +1,21 @@
+{
+  "nome": "PetShop Mega Pro",
+  "valores": {"pequeno": 50.00, "medio": 75.00, "grande": 110.00, "gato": 80.00},
+  "desconto_pix": 5,
+  "whatsapp": "(11) 99999-8888",
+  "telefone_fixo": "(11) 3333-4444",
+  "endereco": "Av. Principal dos Pets, nº 1500 - Bairro Central (em frente ao Parque dos Cães, com estacionamento exclusivo na frente)",
+  "horarios": "• Segunda a Sexta: 08:00 às 20:00 (Estética até às 19:00)\n• Sábados: 08:00 às 18:00\n• Domingos e Feriados: 09:00 às 13:00 (apenas plantão da Farmácia e Retiradas)",
+  "servicos_extra": [
+    "✂️ Tosa na Tesoura ou Máquina (tosa bebê, tosa da raça)",
+    "🪥 Escovação de Dentes com kit individual",
+    "🐾 Hidratação de Pelagem com produtos de alta linha",
+    "🚗 Táxi Dog: buscamos e levamos na sua casa"
+  ],
+  "produtos": [
+    {"nome": "Ração Premium Especial Cães Adultos 15kg", "categoria": "Alimentação", "preco": "R$ 149,90", "badge": "10% OFF", "badge_classe": "", "imagem": "/static/img/racao1.png"},
+    {"nome": "Antipulgas e Carrapatos Pro Cães 10 a 20kg", "categoria": "Farmácia Vet", "preco": "R$ 89,00", "badge": "Medicamento", "badge_classe": "farmacia", "imagem": "https://placehold.co/300x200/d32f2f/fff?text=Antipulgas"},
+    {"nome": "Peitoral Ergonômico Confort Premium Refletivo", "categoria": "Acessórios", "preco": "R$ 72,50", "badge": "Lançamento", "badge_classe": "acessorios", "imagem": "https://placehold.co/300x200/0284c7/fff?text=Arnes+Peitoral"},
+    {"nome": "Brinquedo Mordedor Inteligente Dispenser de Petiscos", "categoria": "Brinquedos", "preco": "R$ 45,90", "badge": "", "badge_classe": "", "imagem": "https://placehold.co/300x200/1b5e20/fff?text=Brinquedo+Interativo"}
+  ]
+}

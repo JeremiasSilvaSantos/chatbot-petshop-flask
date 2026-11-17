@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ db.nome }}</title>
+  <style>
+    /* ----------------------------------------------------
+       DESIGN SYSTEM & ESTILIZAÇÃO COMPLETA
+    ------------------------------------------------------- */
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    :root {
+      --brand-primary: #1b5e20;
+      --brand-light: #4caf50;
+      --brand-gradient: linear-gradient(135deg, #1b5e20, #43a047);
+      --accent: #ff9100;
+      --accent-hover: #ff6d00;
+      --danger: #d32f2f;
+      
+      --bg-surface: #f8f9fa;
+      --bg-card: #ffffff;
+      --text-main: #1a1a1a;
+      --text-muted: #626d7a;
+      --border-color: #e2e8f0;
+      
+      --shadow-sm: 0 2px 4px rgba(0,0,0,.04);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -2px rgba(0,0,0,.04);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 10px -5px rgba(0,0,0,.04);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-blur: blur(16px);
+      
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --transition-smooth: all 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-surface); 
+      color: var(--text-main);
+      min-height: 100vh; 
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    nav { 
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem; 
+      display: flex; align-items: center; justify-content: space-between; height: 70px; 
+    }
+
+    .nav-brand { color: var(--brand-primary); font-size: 1.5rem; font-weight: 800; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: .95rem; font-weight: 500; transition: var(--transition-smooth); }
+    .nav-links a:hover { color: var(--brand-primary); }
+
+    .hero { background: var(--brand-gradient); color: white; text-align: center; padding: 5rem 1rem; }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; font-weight: 800; }
+    .hero p { font-size: 1.2rem; opacity: .95; max-width: 600px; margin: 0 auto; }
+
+    /* VITRINE DE PRODUTOS */
+    .produtos-section { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+    .produtos-section h2 { font-size: 1.75rem; color: var(--brand-primary); margin-bottom: 2.5rem; position: relative; padding-left: 1rem; }
+    .produtos-section h2::before { content: ''; position: absolute; left: 0; top: 15%; bottom: 15%; width: 5px; background: var(--accent); border-radius: 4px; }
+
+    .produtos-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+      gap: 2rem; 
+    }
+
+    .card { 
+      background: var(--bg-card); border-radius: var(--radius-md); overflow: hidden; position: relative;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);
+      transition: var(--transition-smooth); display: flex; flex-direction: column;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    
+    .badge {
+      position: absolute; top: 10px; left: 10px; background: var(--accent); color: white;
+      font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; z-index: 1;
+    }
+    .badge.farmacia { background: var(--danger); }
+    .badge.acessorios { background: #0284c7; }
+
+    .card img { width: 100%; height: 200px; object-fit: cover; background: #f1f5f9; }
+    .card .content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .card .category { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin-bottom: 0.25rem; }
+    
+    .card h3 { 
+  display: -webkit-box; 
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical; 
+  
+  /* Propriedade padrão para compatibilidade moderna */
+  line-clamp: 2; 
+  
+  overflow: hidden;
+  font-size: 1.05rem; 
+  color: var(--text-main); 
+  margin-bottom: 0.5rem; 
+  min-height: 44px; 
+}
+    .card p { font-size: 1.3rem; font-weight: 800; color: var(--brand-primary); margin-top: auto; }
+
+    /* WIDGET DE COMPONENTES DO CHAT */
+    #chat-wrapper { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; }
+
+    #chat-trigger { 
+      width: 60px; height: 60px; border-radius: 50%; 
+      background: var(--accent); color: white; border: none;
+      font-size: 1.75rem; cursor: pointer; box-shadow: var(--shadow-md);
+      transition: var(--transition-smooth); display: flex; align-items: center; justify-content: center;
+    }
+    #chat-trigger:hover { background: var(--accent-hover); transform: scale(1.08) rotate(-5deg); box-shadow: var(--shadow-lg); }
+
+    #chat-container { 
+      position: absolute; bottom: 4.5rem; right: 0; 
+      width: 420px; height: 650px; max-height: 85vh;
+      background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex; flex-direction: column; overflow: hidden; 
+      opacity: 0; transform: translateY(30px) scale(.95); pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1), transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    }
+    #chat-container.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+
+    .chat-header { background: var(--brand-gradient); color: white; padding: 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .chat-header-user { display: flex; align-items: center; gap: 0.75rem; }
+    .chat-avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1px solid rgba(255,255,255,0.3); }
+    .chat-meta .title { font-weight: 700; font-size: 1rem; }
+    .chat-meta .status { font-size: .75rem; opacity: 0.9; display: flex; align-items: center; gap: 4px; }
+    .chat-meta .status::before { content:''; width: 6px; height: 6px; background: #4caf50; border-radius: 50%; display: inline-block; }
+
+    .chat-close { background: rgba(255, 255, 255, 0.1); border: none; color: white; font-size: 1.1rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition-smooth); }
+    .chat-close:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .chat-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; background: rgba(248, 249, 250, 0.6); scroll-behavior: smooth; }
+    .chat-bubble { max-width: 85%; padding: 0.8rem 1.1rem; border-radius: var(--radius-md); font-size: .92rem; animation: msgPop 0.3s var(--transition-smooth) forwards; line-height: 1.4; }
+    @keyframes msgPop { from { transform: translateY(10px) scale(.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+    .chat-bubble.bot { background: var(--bg-card); color: var(--text-main); border-top-left-radius: 2px; align-self: flex-start; box-shadow: 0 2px 5px rgba(0,0,0,.04); border: 1px solid rgba(0,0,0,0.02); white-space: pre-line; }
+    .chat-bubble.user { background: var(--brand-primary); color: white; border-top-right-radius: 2px; align-self: flex-end; }
+
+    .chat-bubble.typing-indicator { display: flex; gap: 4px; align-items: center; padding: 0.8rem 1.2rem; }
+    .chat-bubble.typing-indicator span { width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%; animation: dotBounce 1.4s infinite ease-in-out both; opacity: 0.4; }
+    .chat-bubble.typing-indicator span:nth-child(2) { animation-delay: .2s; }
+    .chat-bubble.typing-indicator span:nth-child(3) { animation-delay: .4s; }
+    @keyframes dotBounce { 0%, 80%, 100% { transform: scale(0.6); } 40% { transform: scale(1) translateY(-4px); opacity: 1; } }
+
+    .chat-footer { display: flex; gap: .75rem; padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-card); }
+    .chat-input-field { flex: 1; padding: 0.75rem 1.2rem; border: 1px solid var(--border-color); border-radius: 30px; font-size: .92rem; outline: none; background: var(--bg-surface); transition: var(--transition-smooth); }
+    .chat-input-field:focus { border-color: var(--brand-light); background: var(--bg-card); box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.12); }
+
+    .chat-send-btn { background: var(--brand-primary); border: none; border-radius: 50%; width: 44px; height: 44px; color: white; font-size: 1rem; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: var(--transition-smooth); }
+    .chat-send-btn:hover { background: var(--brand-light); }
+
+    @media (max-width: 540px) {
+      #chat-wrapper { bottom: 0; right: 0; width: 100%; }
+      #chat-trigger { position: fixed; bottom: 1.5rem; right: 1.5rem; }
+      #chat-container { width: 100vw; height: 100vh; max-height: 100vh; bottom: 0; right: 0; border-radius: 0; border: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="nav-brand">🐾 {{ db.nome }}</a>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#" data-open-chat>Serviços Pro</a></li>
+      <li><a href="#" data-open-chat>Fale Conosco</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>O Paraíso do seu Pet 🐶</h1>
+    <p>Rações, Farmácia Especializada e Estética Animal. Converse com o Bolt para suporte e vagas.</p>
+  </section>
+
+  <section class="produtos-section" id="produtos">
+    <h2>Produtos em Destaque</h2>
+    <div class="produtos-grid">
+      {% for p in db.produtos %}
+      <div class="card">
+        {% if p.badge %}<span class="badge {{ p.badge_classe }}">{{ p.badge }}</span>{% endif %}
+        <img src="{{ p.imagem }}" alt="{{ p.nome }}" loading="lazy"/>
+        <div class="content">
+          <span class="category">{{ p.categoria }}</span>
+          <h3>{{ p.nome }}</h3>
+          <p>{{ p.preco }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+
+<div id="chat-wrapper">
+  <button id="chat-trigger" aria-label="Abrir suporte Bolt">💬</button>
+  
+  <div id="chat-container" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-header-user">
+        <div class="chat-avatar">🤖</div>
+        <div class="chat-meta">
+          <div class="title">Bolt Core</div>
+          <div class="status">Online agora</div>
+        </div>
+      </div>
+      <button class="chat-close" id="chat-close">✕</button>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages" role="log"></div>
+    
+    <div class="chat-footer">
+      <input type="text" class="chat-input-field" id="chat-input" placeholder="Digite uma dúvida..." autocomplete="off"/>
+      <button class="chat-send-btn" id="chat-send">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  class FlaskPetChat {
+    constructor() {
+      this.isInitialized = false;
+      this.history = [];
+      this.apiURL = "/api/chat"; // Rota interna e unificada do Flask
+      this.cacheDOM();
+      this.bindEvents();
+    }
+
+    cacheDOM() {
+      this.dom = {
+        container: document.getElementById('chat-container'),
+        trigger: document.getElementById('chat-trigger'),
+        closeBtn: document.getElementById('chat-close'),
+        messagesArea: document.getElementById('chat-messages'),
+        inputField: document.getElementById('chat-input'),
+        sendBtn: document.getElementById('chat-send')
+      };
+    }
+
+    bindEvents() {
+      this.dom.trigger.addEventListener('click', () => this.toggleState());
+      this.dom.closeBtn.addEventListener('click', () => this.toggleState(false));
+      this.dom.sendBtn.addEventListener('click', () => this.handleUserSend());
+      document.querySelectorAll('[data-open-chat]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); this.toggleState(true); }));
+      this.dom.inputField.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !this.dom.inputField.disabled) this.handleUserSend();
+      });
+    }
+
+    toggleState(forceState = null) {
+      const open = forceState !== null ? forceState : !this.dom.container.classList.contains('active');
+      if (open) {
+        this.dom.container.classList.add('active');
+        this.dom.inputField.focus();
+        if (!this.isInitialized) {
+          this.renderMessage('bot', 'Olá! Seja bem-vindo ao PetShop Mega! 🐾\nEu sou o Bolt, seu assistente virtual. \n\nComo posso ajudar você e seu pet hoje?');
+          this.isInitialized = true;
+        }
+      } else { this.dom.container.classList.remove('active'); }
+    }
+
+    format(text) {
+      const esc = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return esc.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+    }
+
+    renderMessage(sender, text) {
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble ${sender}`;
+      if (sender === 'bot') bubble.innerHTML = this.format(text); else bubble.textContent = text;
+      this.dom.messagesArea.appendChild(bubble);
+      this.dom.messagesArea.scrollTop = this.dom.messagesArea.scrollHeight;
+    }
+
+    toggleTypingIndicator(visible) {
+      const existing = document.getElementById('typing-ind');
+      if (existing) existing.remove();
+      if (visible) {
+        const ind = document.createElement('div');
+        ind.className = 'chat-bubble bot typing-indicator';
+        ind.id = 'typing-ind';
+        ind.innerHTML = '<span></span><span></span><span></span>';
+        this.dom.messagesArea.appendChild(ind);
+        this.dom.messagesArea.scrollTop = this.dom.messagesArea.scrollHeight;
+      }
+    }
+
+    async handleUserSend() {
+      const text = this.dom.inputField.value.trim();
+      if (!text) return;
+
+      this.renderMessage('user', text);
+      this.history.push({ role: 'user', content: text });
+      this.dom.inputField.value = '';
+      
+      this.dom.inputField.disabled = true;
+      this.dom.sendBtn.disabled = true;
+      this.toggleTypingIndicator(true);
+
+      try {
+        // Envia os dados via POST para a API interna do Python
+        const response = await fetch(this.apiURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ history: this.history.slice(-20) })
+        });
+        
+        if (!response.ok) throw new Error("Erro na resposta do servidor");
+        const data = await response.json();
+        
+        this.toggleTypingIndicator(false);
+        this.history.push({ role: 'assistant', content: data.response });
+        this.renderMessage('bot', data.response);
+
+      } catch (error) {
+        this.toggleTypingIndicator(false);
+        this.history.pop();
+        this.renderMessage('bot', "⚠️ Não consegui conectar agora. Tente novamente em instantes.");
+      } finally {
+        this.dom.inputField.disabled = false;
+        this.dom.sendBtn.disabled = false;
+        this.dom.inputField.focus();
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => { new FlaskPetChat(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# Opcional: só se um dia quiser ligar a IA (tem custo por uso)
+anthropic>=0.40.0
