@@ -1,4 +1,4 @@
-# PetShop Mega Pro – Bolt
+# PetShop Mega Pro Bolt
 
 > **Desenvolvido por:** Jeremias Silva Santos
 
